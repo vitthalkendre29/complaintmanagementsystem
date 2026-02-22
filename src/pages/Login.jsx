@@ -112,11 +112,10 @@ const Login = ({ onNavigate }) => {
 
         {/* Demo Credentials */}
         <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-          <p className="text-xs font-semibold text-gray-700 mb-2">Demo Credentials:</p>
+          <p className="text-xs font-semibold text-gray-700 mb-2">For Any enquiry Contact to :</p>
           <div className="text-xs text-gray-600 space-y-1">
-            <p><strong>Student:</strong> john.doe@university.edu / password123</p>
-            <p><strong>Admin:</strong> admin@university.edu / admin123</p>
-            <p><strong>Super Admin:</strong> superadmin@university.edu / super123</p>
+            <p><strong>Email:</strong> vicky@sits.edu</p>
+            <p><strong>Contact NO:</strong> 9028266650</p>
           </div>
         </div>
       </div>

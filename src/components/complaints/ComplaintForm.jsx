@@ -5,7 +5,7 @@ import Input from '../common/Input';
 import Button from '../common/Button';
 import { complaintsAPI } from '../../services/api';
 import { useAuth } from '../../hooks/useAuth';
-import { CATEGORIES, PRIORITIES } from '../../utils/constants';
+import { CATEGORIES } from '../../utils/constants';
 
 /**
  * Complaint Submission Form Component
@@ -16,7 +16,6 @@ const ComplaintForm = ({ onClose, onSuccess }) => {
     title: '',
     description: '',
     category: '',
-    priority: 'Medium',
     anonymous: false,
   });
   const [error, setError] = useState('');
@@ -120,7 +119,7 @@ const ComplaintForm = ({ onClose, onSuccess }) => {
               </select>
             </div>
 
-            <div>
+            {/* <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Priority <span className="text-red-500">*</span>
               </label>
@@ -135,7 +134,7 @@ const ComplaintForm = ({ onClose, onSuccess }) => {
                   <option key={priority} value={priority}>{priority}</option>
                 ))}
               </select>
-            </div>
+            </div> */}
           </div>
 
           <div className="flex items-center">

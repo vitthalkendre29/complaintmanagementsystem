@@ -82,6 +82,7 @@ body {
 .bg-red-50 { background-color: #fef2f2; }
 .bg-green-100 { background-color: #dcfce7; }
 .bg-yellow-100 { background-color: #fef9c3; }
+.bg-purple-500 { background-color: #3baff8; }
 
 /* Gradient Background for Login */
 .bg-gradient-to-br {

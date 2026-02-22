@@ -1,9 +1,4 @@
-// src/components/common/LoadingSpinner.jsx
-import React from 'react';
 
-/**
- * Loading Spinner Component
- */
 const LoadingSpinner = ({ size = 'md', fullScreen = false }) => {
   const sizes = {
     sm: 'h-4 w-4',

@@ -126,7 +126,12 @@ const StudentDashboard = ({ onNavigate, onFileComplaint }) => {
                   <h3 className="font-semibold text-gray-800">{complaint.title}</h3>
                   <div className="flex gap-2">
                     <StatusBadge status={complaint.status} />
-                    <StatusBadge priority={complaint.priority} type="priority" />
+                    {complaint.status !== "Open" && (
+                      <StatusBadge 
+                        priority={complaint.priority} 
+                        type="priority" 
+                      />
+                    )}
                   </div>
                 </div>
                 <p className="text-sm text-gray-600 mb-2">

@@ -12,7 +12,6 @@ export const ROLES = {
 
 // Complaint Status
 export const COMPLAINT_STATUS = {
-  OPEN: 'Open',
   IN_PROGRESS: 'In Progress',
   RESOLVED: 'Resolved',
   CLOSED: 'Closed',

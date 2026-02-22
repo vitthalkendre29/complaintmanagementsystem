@@ -207,7 +207,12 @@ const ComplaintList = ({ onNavigate }) => {
                 <h3 className="text-lg font-semibold text-gray-800">{complaint.title}</h3>
                 <div className="flex gap-2 flex-wrap">
                   <StatusBadge status={complaint.status} />
-                  <StatusBadge priority={complaint.priority} type="priority" />
+                  {complaint.status !== "Open" && (
+                    <StatusBadge 
+                      priority={complaint.priority} 
+                      type="priority" 
+                    />
+                  )}
                 </div>
               </div>
 

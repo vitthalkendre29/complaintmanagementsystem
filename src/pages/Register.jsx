@@ -101,7 +101,7 @@ const Register = ({ onNavigate }) => {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            placeholder="John Doe"
+            placeholder="Username"
             icon={User}
             required
           />
@@ -141,7 +141,7 @@ const Register = ({ onNavigate }) => {
 
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Role <span className="text-red-500">*</span>
+              Role <span className="text-red-600">*</span>
             </label>
             <select
               name="role"
@@ -151,7 +151,7 @@ const Register = ({ onNavigate }) => {
               required
             >
               <option value={ROLES.STUDENT}>Student</option>
-              <option value={ROLES.ADMIN}>Admin</option>
+              {/* <option value={ROLES.ADMIN}>Admin</option> */}
             </select>
           </div>
 
@@ -167,15 +167,26 @@ const Register = ({ onNavigate }) => {
             />
           )}
 
-          <Input
-            label="Department"
-            type="text"
-            name="department"
-            value={formData.department}
-            onChange={handleChange}
-            placeholder="Computer Science"
-            required
-          />
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Department <span className="text-red-600">*</span>
+            </label>
+            <select
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+              className="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            >
+              <option value={formData.department}>Computer Department</option>
+              <option value={formData.department}>IT Department</option>
+              <option value={formData.department}>Civil Department</option>
+              <option value={formData.department}>Mechanical Department</option>
+              <option value={formData.department}>Electronics and Telecommunication Department</option>
+              <option value={formData.department}>Electrical Department</option>
+              <option value={formData.department}>Chemical Department</option>
+            </select>
+          </div>
 
           <Button
             type="submit"

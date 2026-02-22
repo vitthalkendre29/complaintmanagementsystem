@@ -6,18 +6,21 @@ import Button from '../components/common/Button';
 import Input from '../components/common/Input';
 import { useAuth } from '../hooks/useAuth';
 import { getInitials } from '../utils/helpers';
+import { ROLES } from '../utils/constants';
 
 /**
  * User Profile Page
  */
 const Profile = () => {
-  const { user } = useAuth();
+  const { user, hasRole } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     name: user?.name || '',
     department: user?.department || '',
   });
   const [loading, setLoading] = useState(false);
+  const isAdmin = hasRole(ROLES.ADMIN) || hasRole(ROLES.SUPERADMIN);
+  
 
   const handleChange = (e) => {
     setFormData({
@@ -181,7 +184,7 @@ const Profile = () => {
       </Card>
 
       {/* Account Statistics */}
-      <Card>
+      {isAdmin ? (<></>):(<Card>
         <h3 className="text-lg font-semibold text-gray-800 mb-4">Account Statistics</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-blue-50 rounded-lg">
@@ -197,7 +200,8 @@ const Profile = () => {
             <p className="text-sm text-gray-600 mt-1">Pending</p>
           </div>
         </div>
-      </Card>
+      </Card>)}
+      
 
       {/* Security Settings */}
       <Card>

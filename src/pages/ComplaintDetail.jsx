@@ -6,9 +6,11 @@ import Button from '../components/common/Button';
 import StatusBadge from '../components/common/StatusBadge';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import { complaintsAPI } from '../services/api';
+import { PRIORITIES } from '../utils/constants';
 import { useAuth } from '../hooks/useAuth';
 import { formatDate } from '../utils/helpers';
 import { ROLES, COMPLAINT_STATUS } from '../utils/constants';
+
 
 /**
  * Complaint Detail Page
@@ -28,6 +30,7 @@ const ComplaintDetail = ({ complaintId, onBack }) => {
     rating: 5,
     comment: '',
   });
+  const [currentPriority, setCurrentPriority] = useState('');
 
   const isAdmin = hasRole(ROLES.ADMIN) || hasRole(ROLES.SUPERADMIN);
 
@@ -44,19 +47,26 @@ const ComplaintDetail = ({ complaintId, onBack }) => {
   },[token,complaintId]);
 
   const handleStatusUpdate = async (e) => {
-    e.preventDefault();
-    try {
-      setUpdating(true);
-      await complaintsAPI.updateStatus(token, complaintId, statusData);
-      setShowStatusUpdate(false);
-      setStatusData({ status: '', comment: '' });
-      fetchComplaint();
-    } catch (error) {
-      alert('Failed to update status: ' + error.message);
-    } finally {
-      setUpdating(false);
-    }
-  };
+  e.preventDefault();
+
+  try {
+    setUpdating(true);
+
+    await complaintsAPI.updateStatus(token, complaintId, {
+      ...statusData,
+      priority: currentPriority,
+    });
+
+    setShowStatusUpdate(false);
+    setStatusData({ status: '', comment: '' });
+
+    fetchComplaint();
+  } catch (error) {
+    alert('Failed to update status: ' + error.message);
+  } finally {
+    setUpdating(false);
+  }
+};
 
   const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
@@ -75,6 +85,12 @@ const ComplaintDetail = ({ complaintId, onBack }) => {
   useEffect(() => {
     fetchComplaint();
   }, [fetchComplaint]);
+
+  useEffect(() => {
+    if (complaint) {
+      setCurrentPriority(complaint.priority);
+    }
+  }, [complaint]);
 
   if (loading) {
     return <LoadingSpinner fullScreen />;
@@ -108,7 +124,13 @@ const ComplaintDetail = ({ complaintId, onBack }) => {
             <h1 className="text-3xl font-bold text-gray-800 mb-2">{complaint.title}</h1>
             <div className="flex gap-2 flex-wrap">
               <StatusBadge status={complaint.status} />
-              <StatusBadge priority={complaint.priority} type="priority" />
+              
+              {complaint.status !== "Open" && (
+                <StatusBadge 
+                  priority={complaint.priority} 
+                  type="priority" 
+                />
+              )}
             </div>
           </div>
           {isAdmin && complaint.status !== 'Resolved' && complaint.status !== 'Closed' && (
@@ -218,7 +240,7 @@ const ComplaintDetail = ({ complaintId, onBack }) => {
 
       {/* Status Update Modal */}
       {showStatusUpdate && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
           <Card className="w-full max-w-md">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Update Status</h2>
             <form onSubmit={handleStatusUpdate} className="space-y-4">
@@ -230,17 +252,28 @@ const ComplaintDetail = ({ complaintId, onBack }) => {
                   value={statusData.status}
                   onChange={(e) => setStatusData({ ...statusData, status: e.target.value })}
                   required
-                  className="block w-full rounded-lg border border-gray-300 px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="block w-full rounded-lg border border-gray-300 px-3 mt-2 mb-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 "
                 >
                   <option value="">Select status</option>
                   {Object.values(COMPLAINT_STATUS).map((status) => (
                     <option key={status} value={status}>{status}</option>
                   ))}
                 </select>
+                <select
+                  value={currentPriority}
+                  onChange={(e) => setCurrentPriority(e.target.value)}
+                  className="block w-full rounded-lg border border-gray-300 px-3 mb-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 "
+                >
+                  {Object.values(PRIORITIES).map((priority) => (
+                    <option key={priority} value={priority}>
+                      {priority}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium  text-gray-700 mb-1">
                   Comment
                 </label>
                 <textarea
@@ -248,7 +281,7 @@ const ComplaintDetail = ({ complaintId, onBack }) => {
                   onChange={(e) => setStatusData({ ...statusData, comment: e.target.value })}
                   placeholder="Add a comment about this status update..."
                   rows={4}
-                  className="block w-full rounded-lg border border-gray-300 px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="block w-full rounded-lg border border-gray-300 mt-2 px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 

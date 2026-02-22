@@ -90,6 +90,14 @@ export const complaintsAPI = {
   /**
    * Update complaint status (Admin only)
    */
+  updatePriority: async (token, id, priorityData) => {
+  return apiFetch(`${API_BASE_URL}/complaints/${id}/priority`, {
+    method: 'PATCH',
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify(priorityData),
+  });
+},
+
   updateStatus: async (token, id, statusData) => {
     return apiFetch(`${API_BASE_URL}/complaints/${id}/status`, {
       method: 'PATCH',
