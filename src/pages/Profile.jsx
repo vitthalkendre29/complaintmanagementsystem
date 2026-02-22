@@ -1,11 +1,11 @@
 // src/pages/Profile.jsx
 import React, { useState } from 'react';
-import { User, Mail, Briefcase, Calendar, Edit2, Save, X } from 'lucide-react';
+import { User, Mail, Briefcase, Edit2, Save, X } from 'lucide-react';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
 import { useAuth } from '../hooks/useAuth';
-import { getInitials, formatDate } from '../utils/helpers';
+import { getInitials } from '../utils/helpers';
 
 /**
  * User Profile Page

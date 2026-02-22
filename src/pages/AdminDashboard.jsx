@@ -1,6 +1,6 @@
 // src/pages/AdminDashboard.jsx
 import React, { useState, useEffect } from 'react';
-import { FileText, Clock, CheckCircle, AlertCircle, TrendingUp, Users } from 'lucide-react';
+import { FileText, Clock, CheckCircle, AlertCircle, TrendingUp } from 'lucide-react';
 import StatsCard from '../components/dashboard/StatsCard';
 import Card from '../components/common/Card';
 import StatusBadge from '../components/common/StatusBadge';

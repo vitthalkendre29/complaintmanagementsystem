@@ -1,6 +1,6 @@
 // src/components/complaints/ComplaintForm.jsx
 import React, { useState } from 'react';
-import { X, AlertCircle, CheckCircle } from 'lucide-react';
+import { X, AlertCircle } from 'lucide-react';
 import Input from '../common/Input';
 import Button from '../common/Button';
 import { complaintsAPI } from '../../services/api';

@@ -1,6 +1,5 @@
 // src/components/common/Topbar.jsx
-import React from 'react';
-import { Menu, Bell, User } from 'lucide-react';
+import { Menu, Bell } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { getInitials } from '../../utils/helpers';
 
