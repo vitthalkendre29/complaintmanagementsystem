@@ -1,6 +1,6 @@
 // src/pages/ComplaintDetail.jsx
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Calendar, User, AlertCircle, CheckCircle } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { ArrowLeft, AlertCircle, CheckCircle } from 'lucide-react';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import StatusBadge from '../components/common/StatusBadge';
@@ -14,7 +14,7 @@ import { ROLES, COMPLAINT_STATUS } from '../utils/constants';
  * Complaint Detail Page
  */
 const ComplaintDetail = ({ complaintId, onBack }) => {
-  const { token, user, hasRole } = useAuth();
+  const { token, hasRole } = useAuth();
   const [complaint, setComplaint] = useState(null);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
@@ -31,11 +31,7 @@ const ComplaintDetail = ({ complaintId, onBack }) => {
 
   const isAdmin = hasRole(ROLES.ADMIN) || hasRole(ROLES.SUPERADMIN);
 
-  useEffect(() => {
-    fetchComplaint();
-  }, [complaintId]);
-
-  const fetchComplaint = async () => {
+  const fetchComplaint = useCallback( async () => {
     try {
       setLoading(true);
       const data = await complaintsAPI.getById(token, complaintId);
@@ -45,7 +41,7 @@ const ComplaintDetail = ({ complaintId, onBack }) => {
     } finally {
       setLoading(false);
     }
-  };
+  },[token,complaintId]);
 
   const handleStatusUpdate = async (e) => {
     e.preventDefault();
@@ -75,6 +71,10 @@ const ComplaintDetail = ({ complaintId, onBack }) => {
       setUpdating(false);
     }
   };
+
+  useEffect(() => {
+    fetchComplaint();
+  }, [fetchComplaint]);
 
   if (loading) {
     return <LoadingSpinner fullScreen />;

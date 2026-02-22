@@ -1,5 +1,5 @@
 // src/pages/AdminDashboard.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback  } from 'react';
 import { FileText, Clock, CheckCircle, AlertCircle, TrendingUp } from 'lucide-react';
 import StatsCard from '../components/dashboard/StatsCard';
 import Card from '../components/common/Card';
@@ -25,11 +25,7 @@ const AdminDashboard = ({ onNavigate }) => {
   });
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchComplaints();
-  }, []);
-
-  const fetchComplaints = async () => {
+  const fetchComplaints = useCallback( async () => {
     try {
       setLoading(true);
       const data = await complaintsAPI.getAll(token);
@@ -50,7 +46,10 @@ const AdminDashboard = ({ onNavigate }) => {
     } finally {
       setLoading(false);
     }
-  };
+  },[token]);
+  useEffect(() => {
+    fetchComplaints();
+  }, [fetchComplaints]);
 
   if (loading) {
     return <LoadingSpinner fullScreen />;

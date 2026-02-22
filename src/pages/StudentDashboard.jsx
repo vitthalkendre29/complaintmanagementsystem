@@ -1,5 +1,5 @@
 // src/pages/StudentDashboard.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Plus, FileText, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 import StatsCard from '../components/dashboard/StatsCard';
 import Button from '../components/common/Button';
@@ -23,12 +23,7 @@ const StudentDashboard = ({ onNavigate, onFileComplaint }) => {
     resolved: 0,
   });
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchComplaints();
-  }, []);
-
-  const fetchComplaints = async () => {
+  const fetchComplaints = useCallback( async () => {
     try {
       setLoading(true);
       const data = await complaintsAPI.getAll(token);
@@ -47,11 +42,16 @@ const StudentDashboard = ({ onNavigate, onFileComplaint }) => {
     } finally {
       setLoading(false);
     }
-  };
+  },[token]);
+
+  useEffect(() => {
+    fetchComplaints();
+  }, [fetchComplaints]);
 
   if (loading) {
     return <LoadingSpinner fullScreen />;
   }
+
 
   return (
     <div className="space-y-6">

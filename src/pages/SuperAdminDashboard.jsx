@@ -1,5 +1,5 @@
 // src/pages/SuperAdminDashboard.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { 
   Users, FileText, CheckCircle, TrendingUp, AlertCircle, 
   BarChart3, Activity, Award, Clock 
@@ -31,11 +31,7 @@ const SuperAdminDashboard = ({ onNavigate }) => {
   const [loading, setLoading] = useState(true);
   const [categoryStats, setCategoryStats] = useState([]);
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback( async () => {
     try {
       setLoading(true);
       const data = await complaintsAPI.getAll(token);
@@ -79,7 +75,11 @@ const SuperAdminDashboard = ({ onNavigate }) => {
     } finally {
       setLoading(false);
     }
-  };
+  },[token]);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, [fetchDashboardData]);  
 
   if (loading) {
     return <LoadingSpinner fullScreen />;

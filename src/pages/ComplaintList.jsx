@@ -1,5 +1,5 @@
 // src/pages/ComplaintList.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Search, Filter, FileText } from 'lucide-react';
 import Card from '../components/common/Card';
 import StatusBadge from '../components/common/StatusBadge';
@@ -26,15 +26,8 @@ const ComplaintList = ({ onNavigate }) => {
   });
   const [showFilters, setShowFilters] = useState(false);
 
-  useEffect(() => {
-    fetchComplaints();
-  }, []);
 
-  useEffect(() => {
-    applyFilters();
-  }, [complaints, searchTerm, filters]);
-
-  const fetchComplaints = async () => {
+  const fetchComplaints = useCallback( async () => {
     try {
       setLoading(true);
       const data = await complaintsAPI.getAll(token);
@@ -45,9 +38,13 @@ const ComplaintList = ({ onNavigate }) => {
     } finally {
       setLoading(false);
     }
-  };
+  },[token]);
 
-  const applyFilters = () => {
+  useEffect(() => {
+    fetchComplaints();
+  }, [fetchComplaints]);
+
+  const applyFilters = useCallback( () => {
     let filtered = [...complaints];
 
     // Search filter
@@ -74,7 +71,7 @@ const ComplaintList = ({ onNavigate }) => {
     }
 
     setFilteredComplaints(filtered);
-  };
+  },[complaints,searchTerm,filters]);
 
   const handleFilterChange = (name, value) => {
     setFilters({
@@ -91,6 +88,10 @@ const ComplaintList = ({ onNavigate }) => {
     });
     setSearchTerm('');
   };
+
+  useEffect(() => {
+    applyFilters();
+  }, [applyFilters]);
 
   if (loading) {
     return <LoadingSpinner fullScreen />;
