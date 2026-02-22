@@ -1,7 +1,7 @@
 // src/utils/constants.js
 
 // API Base URL
-export const API_BASE_URL = 'http://localhost:5000/api';
+export const API_BASE_URL = 'https://testing-backend-neon.vercel.app/api';
 
 // User Roles
 export const ROLES = {
