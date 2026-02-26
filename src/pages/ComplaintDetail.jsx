@@ -106,6 +106,9 @@ const ComplaintDetail = ({ complaintId, onBack }) => {
     );
   }
 
+  console.log(complaint.attachments);
+  
+
   return (
     <div className="space-y-6">
       {/* Back Button */}
@@ -171,6 +174,44 @@ const ComplaintDetail = ({ complaintId, onBack }) => {
             <p className="text-gray-700 whitespace-pre-wrap">{complaint.description}</p>
           </div>
         </div>
+        {/* Attachments */}
+        {/* Attachments */}
+        {complaint.attachments && complaint.attachments.length > 0 && (
+        <div>
+          <p className="text-sm text-gray-500 mb-2">Attachments</p>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {complaint.attachments.map((file, index) => {
+              const baseURL =
+                import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
+              const fileUrl = `${baseURL}/${file.path}`;
+              const isImage = file.mimetype.startsWith("image/");
+
+              return (
+                <div key={index} className="border rounded-lg p-2">
+                  {isImage ? (
+                    <img
+                      src={fileUrl}
+                      alt={file.originalName}
+                      className="w-full max-h-64 object-contain rounded-lg border bg-gray-50"
+                    />
+                  ) : (
+                    <a
+                      href={fileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 underline break-words"
+                    >
+                      {file.originalName}
+                    </a>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        )}
       </Card>
 
       {/* Status History */}

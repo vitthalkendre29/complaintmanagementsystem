@@ -1,5 +1,4 @@
 // src/components/complaints/ComplaintDetails.jsx
-import React from 'react';
 import { Calendar, User, AlertCircle, Clock, MapPin, Hash } from 'lucide-react';
 import StatusBadge from '../common/StatusBadge';
 import { formatDate } from '../../utils/helpers';
@@ -16,6 +15,9 @@ const ComplaintDetails = ({ complaint }) => {
       </div>
     );
   }
+  console.log(complaint.attachments);
+  console.log(complaint);
+  
 
   return (
     <div className="space-y-6">
