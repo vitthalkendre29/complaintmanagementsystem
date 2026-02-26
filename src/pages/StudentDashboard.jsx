@@ -27,7 +27,7 @@ const StudentDashboard = ({ onNavigate, onFileComplaint }) => {
     try {
       setLoading(true);
       const data = await complaintsAPI.getAll(token);
-      const complaintsList = data.complaints || data || [];
+      const complaintsList = data.complaints || data || [];     
       setComplaints(complaintsList);
 
       // Calculate stats

@@ -20,6 +20,11 @@ const ComplaintForm = ({ onClose, onSuccess }) => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [files, setFiles] = useState([]);
+
+  const handleFileChange = (e) => {
+    setFiles(e.target.files);
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -43,7 +48,21 @@ const ComplaintForm = ({ onClose, onSuccess }) => {
     }
 
     try {
-      await complaintsAPI.create(token, formData);
+      const formDataToSend = new FormData();
+
+      // Append text fields
+      formDataToSend.append('title', formData.title);
+      formDataToSend.append('description', formData.description);
+      formDataToSend.append('category', formData.category);
+      formDataToSend.append('anonymous', formData.anonymous);
+
+      // Append files
+      for (let i = 0; i < files.length; i++) {
+        formDataToSend.append('attachments', files[i]);
+      }
+
+      await complaintsAPI.create(token, formDataToSend);
+
       onSuccess?.();
     } catch (err) {
       setError(err.message || 'Failed to submit complaint');
@@ -149,6 +168,18 @@ const ComplaintForm = ({ onClose, onSuccess }) => {
             <label htmlFor="anonymous" className="ml-2 text-sm text-gray-700">
               Submit as anonymous complaint
             </label>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Attach Files (optional)
+            </label>
+            <input
+              type="file"
+              multiple
+              onChange={handleFileChange}
+              className="block w-full text-sm text-gray-600"
+            />
           </div>
 
           {formData.anonymous && (

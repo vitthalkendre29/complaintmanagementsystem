@@ -10,6 +10,16 @@ export const ROLES = {
   SUPERADMIN: 'superadmin'
 };
 
+export const Department = {
+  COMP: 'Computer Department',
+  IT: 'IT Department',
+  CIVIL: 'Civil Department',
+  MECHANICAL: 'Mechanical Department',
+  ENTC: 'Electronics and Telecommunication Department',
+  ELECTRICAL: 'Electrical Department',
+  CHEMICAL: 'Chemical Department',
+};
+
 // Complaint Status
 export const COMPLAINT_STATUS = {
   IN_PROGRESS: 'In Progress',

@@ -80,12 +80,21 @@ export const complaintsAPI = {
    * Create new complaint
    */
   create: async (token, complaintData) => {
-    return apiFetch(`${API_BASE_URL}/complaints`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}` },
-      body: JSON.stringify(complaintData),
-    });
-  },
+  return fetch(`${API_BASE_URL}/complaints`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      // ❌ DO NOT set Content-Type here
+    },
+    body: complaintData,
+  }).then(async (response) => {
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || 'Something went wrong');
+    }
+    return data;
+  });
+},  
 
   /**
    * Update complaint status (Admin only)

@@ -4,7 +4,7 @@ import { User, Mail, Lock, AlertCircle, CheckCircle } from 'lucide-react';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import { authAPI } from '../services/api';
-import { ROLES } from '../utils/constants';
+import { Department, ROLES } from '../utils/constants';
 
 /**
  * Register Page Component
@@ -17,7 +17,7 @@ const Register = ({ onNavigate }) => {
     confirmPassword: '',
     role: ROLES.STUDENT,
     studentId: '',
-    department: '',
+    department: ROLES.STUDENT,
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -151,7 +151,7 @@ const Register = ({ onNavigate }) => {
               required
             >
               <option value={ROLES.STUDENT}>Student</option>
-              {/* <option value={ROLES.ADMIN}>Admin</option> */}
+              <option value={ROLES.ADMIN}>Admin</option>
             </select>
           </div>
 
@@ -178,13 +178,13 @@ const Register = ({ onNavigate }) => {
               className="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             >
-              <option value={formData.department}>Computer Department</option>
-              <option value={formData.department}>IT Department</option>
-              <option value={formData.department}>Civil Department</option>
-              <option value={formData.department}>Mechanical Department</option>
-              <option value={formData.department}>Electronics and Telecommunication Department</option>
-              <option value={formData.department}>Electrical Department</option>
-              <option value={formData.department}>Chemical Department</option>
+              <option value={Department.COMP}>Computer Department</option>
+              <option value={Department.IT}>IT Department</option>
+              <option value={Department.CIVIL}>Civil Department</option>
+              <option value={Department.MECHANICAL}>Mechanical Department</option>
+              <option value={Department.ENTC}>Electronics and Telecommunication Department</option>
+              <option value={Department.ELECTRICAL}>Electrical Department</option>
+              <option value={Department.CHEMICAL}>Chemical Department</option>
             </select>
           </div>
 
