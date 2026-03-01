@@ -110,8 +110,8 @@ const Profile = () => {
               <Input
                 label="Department"
                 name="department"
-                value={formData.department}
-                onChange={handleChange}
+                value={user?.department}
+                disabled
                 icon={Briefcase}
               />
 

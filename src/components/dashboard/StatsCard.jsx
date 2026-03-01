@@ -1,15 +1,13 @@
 // src/components/dashboard/StatsCard.jsx
-import React from 'react';
-
 /**
  * Statistics Card Component for Dashboard
  */
 const StatsCard = ({ title, value, icon: Icon, color = 'blue', trend }) => {
   const colorClasses = {
-    blue: 'bg-blue-100',
-    green: 'bg-green-100',
-    yellow: 'bg-yellow-100',
-    red: 'bg-red-50',
+    blue: 'bg-blue-300',
+    green: 'bg-green-300',
+    yellow: 'bg-yellow-300',
+    red: 'bg-red-300',
     purple: 'bg-purple-500',
   };
 

@@ -78,10 +78,15 @@ body {
 .bg-gray-100 { background-color: #f3f4f6; }
 .bg-blue-50 { background-color: #eff6ff; }
 .bg-blue-100 { background-color: #dbeafe; }
+.bg-blue-300 { background-color: #7db5fd; }
 .bg-blue-600 { background-color: #2563eb; }
 .bg-red-50 { background-color: #fef2f2; }
+.bg-red-300 { background-color: #ff8d8d; }
 .bg-green-100 { background-color: #dcfce7; }
+.bg-green-300 { background-color: #9cfcbd; }
 .bg-yellow-100 { background-color: #fef9c3; }
+.bg-yellow-300 { background-color: #fff47d; }
+.bg-purple-500 { background-color: #3bb0f88e; }
 
 /* Gradient Background for Login */
 .bg-gradient-to-br {

@@ -17,7 +17,7 @@ const Register = ({ onNavigate }) => {
     confirmPassword: '',
     role: ROLES.STUDENT,
     studentId: '',
-    department: ROLES.STUDENT,
+    department: Department.COMP,
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
