@@ -28,9 +28,6 @@ const apiFetch = async (url, options = {}) => {
 
 // ==================== AUTH API ====================
 export const authAPI = {
-  /**
-   * Login user
-   */
   login: async (credentials) => {
     return apiFetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
@@ -38,9 +35,6 @@ export const authAPI = {
     });
   },
 
-  /**
-   * Register new user
-   */
   register: async (userData) => {
     return apiFetch(`${API_BASE_URL}/auth/register`, {
       method: 'POST',
@@ -51,61 +45,34 @@ export const authAPI = {
 
 // ==================== COMPLAINTS API ====================
 export const complaintsAPI = {
-  /**
-   * Get all complaints with optional filters
-   */
   getAll: async (token, filters = {}) => {
     const queryParams = new URLSearchParams(
       Object.entries(filters).filter(([_, v]) => v)
     ).toString();
-    
+
     return apiFetch(
       `${API_BASE_URL}/complaints${queryParams ? `?${queryParams}` : ''}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
+      { headers: { Authorization: `Bearer ${token}` } }
     );
   },
 
-  /**
-   * Get single complaint by ID
-   */
   getById: async (token, id) => {
     return apiFetch(`${API_BASE_URL}/complaints/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
   },
 
-  /**
-   * Create new complaint
-   */
   create: async (token, complaintData) => {
-  return fetch(`${API_BASE_URL}/complaints`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      // ❌ DO NOT set Content-Type here
-    },
-    body: complaintData,
-  }).then(async (response) => {
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || 'Something went wrong');
-    }
-    return data;
-  });
-},  
-
-  /**
-   * Update complaint status (Admin only)
-   */
-  updatePriority: async (token, id, priorityData) => {
-  return apiFetch(`${API_BASE_URL}/complaints/${id}/priority`, {
-    method: 'PATCH',
-    headers: { Authorization: `Bearer ${token}` },
-    body: JSON.stringify(priorityData),
-  });
-},
+    return fetch(`${API_BASE_URL}/complaints`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: complaintData,
+    }).then(async (response) => {
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Something went wrong');
+      return data;
+    });
+  },
 
   updateStatus: async (token, id, statusData) => {
     return apiFetch(`${API_BASE_URL}/complaints/${id}/status`, {
@@ -116,7 +83,7 @@ export const complaintsAPI = {
   },
 
   /**
-   * Assign complaint to admin
+   * Assign complaint to an admin with optional note
    */
   assign: async (token, id, assignData) => {
     return apiFetch(`${API_BASE_URL}/complaints/${id}/assign`, {
@@ -127,8 +94,25 @@ export const complaintsAPI = {
   },
 
   /**
-   * Add feedback to resolved complaint
+   * Get list of all admin users (for the assign dropdown)
    */
+  getAdmins: async (token) => {
+    return apiFetch(`${API_BASE_URL}/complaints/admins`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  },
+
+  /**
+   * Admin adds a reply/message to a complaint (visible to student)
+   */
+  addReply: async (token, id, message) => {
+    return apiFetch(`${API_BASE_URL}/complaints/${id}/reply`, {
+      method: 'PATCH',
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ message }),
+    });
+  },
+
   addFeedback: async (token, id, feedbackData) => {
     return apiFetch(`${API_BASE_URL}/complaints/${id}/feedback`, {
       method: 'PATCH',
@@ -137,9 +121,6 @@ export const complaintsAPI = {
     });
   },
 
-  /**
-   * Delete complaint (Admin/SuperAdmin only)
-   */
   delete: async (token, id) => {
     return apiFetch(`${API_BASE_URL}/complaints/${id}`, {
       method: 'DELETE',
