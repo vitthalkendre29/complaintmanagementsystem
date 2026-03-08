@@ -11,7 +11,7 @@ const apiFetch = async (url, options = {}) => {
   return data;
 };
 
-// ==================== AUTH ====================
+// ── AUTH ──────────────────────────────────────────────────────────────────────
 export const authAPI = {
   login: (credentials) =>
     apiFetch(`${API_BASE_URL}/auth/login`, { method: 'POST', body: JSON.stringify(credentials) }),
@@ -20,8 +20,10 @@ export const authAPI = {
     apiFetch(`${API_BASE_URL}/auth/register`, { method: 'POST', body: JSON.stringify(userData) }),
 };
 
-// ==================== COMPLAINTS ====================
+// ── COMPLAINTS ────────────────────────────────────────────────────────────────
 export const complaintsAPI = {
+
+  /** All complaints — admin gets all, student gets own */
   getAll: (token, filters = {}) => {
     const q = new URLSearchParams(Object.entries(filters).filter(([, v]) => v)).toString();
     return apiFetch(`${API_BASE_URL}/complaints${q ? `?${q}` : ''}`, {
@@ -29,86 +31,114 @@ export const complaintsAPI = {
     });
   },
 
+  /** Complaints assigned to the logged-in admin only */
+  getMyAssigned: (token, filters = {}) => {
+    const q = new URLSearchParams(Object.entries(filters).filter(([, v]) => v)).toString();
+    return apiFetch(`${API_BASE_URL}/complaints/my-assigned${q ? `?${q}` : ''}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  },
+
+  /** Single complaint by id */
   getById: (token, id) =>
     apiFetch(`${API_BASE_URL}/complaints/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     }),
 
+  /** Create complaint (multipart/form-data) */
   create: (token, formData) =>
     fetch(`${API_BASE_URL}/complaints`, {
-      method: 'POST',
+      method:  'POST',
       headers: { Authorization: `Bearer ${token}` },
-      body: formData,
-    }).then(async (r) => {
-      const data = await r.json();
-      if (!r.ok) throw new Error(data.message || 'Something went wrong');
-      return data;
+      body:    formData,
+    }).then(async r => {
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.message || 'Something went wrong');
+      return d;
     }),
 
+  /** Full status + priority update */
   updateStatus: (token, id, statusData) =>
     apiFetch(`${API_BASE_URL}/complaints/${id}/status`, {
-      method: 'PATCH',
+      method:  'PATCH',
       headers: { Authorization: `Bearer ${token}` },
-      body: JSON.stringify(statusData),
+      body:    JSON.stringify(statusData),
     }),
 
+  /** Assign (or re-assign) to an admin */
   assign: (token, id, assignData) =>
     apiFetch(`${API_BASE_URL}/complaints/${id}/assign`, {
-      method: 'PATCH',
+      method:  'PATCH',
       headers: { Authorization: `Bearer ${token}` },
-      body: JSON.stringify(assignData),
+      body:    JSON.stringify(assignData),
     }),
 
+  /** Quick resolve with optional comment */
+  resolve: (token, id, comment = '') =>
+    apiFetch(`${API_BASE_URL}/complaints/${id}/resolve`, {
+      method:  'PATCH',
+      headers: { Authorization: `Bearer ${token}` },
+      body:    JSON.stringify({ comment }),
+    }),
+
+  /** Reject a complaint with a mandatory reason */
+  reject: (token, id, reason) =>
+    apiFetch(`${API_BASE_URL}/complaints/${id}/reject`, {
+      method:  'PATCH',
+      headers: { Authorization: `Bearer ${token}` },
+      body:    JSON.stringify({ reason }),
+    }),
+
+  /** Admin asks student for more information */
+  requestMoreInfo: (token, id, question) =>
+    apiFetch(`${API_BASE_URL}/complaints/${id}/request-info`, {
+      method:  'PATCH',
+      headers: { Authorization: `Bearer ${token}` },
+      body:    JSON.stringify({ question }),
+    }),
+
+  /**
+   * Student submits additional info with optional file attachments.
+   * Caller must pass a FormData object that includes 'response' text
+   * and optionally 'attachments' files.
+   */
+  submitAdditionalInfo: (token, id, formData) =>
+    fetch(`${API_BASE_URL}/complaints/${id}/submit-info`, {
+      method:  'PATCH',
+      headers: { Authorization: `Bearer ${token}` },
+      body:    formData,
+    }).then(async r => {
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.message || 'Something went wrong');
+      return d;
+    }),
+
+  /** Admin sends a reply visible to the student */
+  addReply: (token, id, message) =>
+    apiFetch(`${API_BASE_URL}/complaints/${id}/reply`, {
+      method:  'PATCH',
+      headers: { Authorization: `Bearer ${token}` },
+      body:    JSON.stringify({ message }),
+    }),
+
+  /** List of all admin/superadmin users for assign dropdown */
   getAdmins: (token) =>
     apiFetch(`${API_BASE_URL}/complaints/admins`, {
       headers: { Authorization: `Bearer ${token}` },
     }),
 
-  addReply: (token, id, message) =>
-    apiFetch(`${API_BASE_URL}/complaints/${id}/reply`, {
-      method: 'PATCH',
-      headers: { Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ message }),
-    }),
-
-  /** Admin rejects the complaint with a reason */
-  reject: (token, id, reason) =>
-    apiFetch(`${API_BASE_URL}/complaints/${id}/reject`, {
-      method: 'PATCH',
-      headers: { Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ reason }),
-    }),
-
-  /** Admin requests more information from student */
-  requestMoreInfo: (token, id, question) =>
-    apiFetch(`${API_BASE_URL}/complaints/${id}/request-info`, {
-      method: 'PATCH',
-      headers: { Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ question }),
-    }),
-
-  /** Student submits additional info (with optional file attachments) */
-  submitAdditionalInfo: (token, id, formData) =>
-    fetch(`${API_BASE_URL}/complaints/${id}/submit-info`, {
-      method: 'PATCH',
-      headers: { Authorization: `Bearer ${token}` },
-      body: formData,
-    }).then(async (r) => {
-      const data = await r.json();
-      if (!r.ok) throw new Error(data.message || 'Something went wrong');
-      return data;
-    }),
-
+  /** Student feedback on a resolved complaint */
   addFeedback: (token, id, feedbackData) =>
     apiFetch(`${API_BASE_URL}/complaints/${id}/feedback`, {
-      method: 'PATCH',
+      method:  'PATCH',
       headers: { Authorization: `Bearer ${token}` },
-      body: JSON.stringify(feedbackData),
+      body:    JSON.stringify(feedbackData),
     }),
 
+  /** Delete (admin only) */
   delete: (token, id) =>
     apiFetch(`${API_BASE_URL}/complaints/${id}`, {
-      method: 'DELETE',
+      method:  'DELETE',
       headers: { Authorization: `Bearer ${token}` },
     }),
 };

@@ -27,10 +27,12 @@ body {
 .justify-between { justify-content: space-between; }
 .flex-col { flex-direction: column; }
 .flex-1 { flex: 1; }
+.gap-1 { gap: 0.25rem; }
 .gap-2 { gap: 0.5rem; }
 .gap-3 { gap: 0.75rem; }
 .gap-4 { gap: 1rem; }
 .gap-6 { gap: 1.5rem; }
+.gap-8 { gap: 2rem; }
 
 /* Spacing */
 .p-4 { padding: 1rem; }
@@ -44,6 +46,9 @@ body {
 .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
 .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
 .m-4 { margin: 1rem; }
+.m-3 { margin: 0.75rem; }
+.m-2 { margin: 0.5rem; }
+.m-1 { margin: 0.25rem; }
 .mb-2 { margin-bottom: 0.5rem; }
 .mb-3 { margin-bottom: 0.75rem; }
 .mb-4 { margin-bottom: 1rem; }
@@ -55,6 +60,8 @@ body {
 .mt-6 { margin-top: 1.5rem; }
 .mr-2 { margin-right: 0.5rem; }
 .mr-3 { margin-right: 0.75rem; }
+.ml-2 { margin-left: 0.5rem; }
+.ml-3 { margin-left: 0.75rem; }
 .mx-auto { margin-left: auto; margin-right: auto; }
 
 /* Width */
@@ -74,27 +81,62 @@ body {
 
 /* Backgrounds */
 .bg-white { background-color: #ffffff; }
+.bg-opacity-40 { background-color: #bab9b990; }
 .bg-gray-50 { background-color: #f9fafb; }
 .bg-gray-100 { background-color: #f3f4f6; }
+.bg-gray-300 { background-color: #dcdcdc; }
 .bg-blue-50 { background-color: #eff6ff; }
 .bg-blue-100 { background-color: #dbeafe; }
 .bg-blue-300 { background-color: #7db5fd; }
 .bg-blue-600 { background-color: #2563eb; }
 .bg-red-50 { background-color: #fef2f2; }
 .bg-red-300 { background-color: #ff8d8d; }
+.bg-red-500 { background-color: #ef4444; }
+.bg-red-600 { background-color: #f71818e9; }
 .bg-green-100 { background-color: #dcfce7; }
+.bg-green-600 { background-color: #08d650; }
 .bg-green-300 { background-color: #9cfcbd; }
-.bg-yellow-100 { background-color: #fef9c3; }
-.bg-yellow-300 { background-color: #fff47d; }
+.bg-yellow-50  { background-color: #fffbeb; }
+.bg-yellow-200 { background-color: #fef08a; }
+.bg-yellow-300 { background-color: #fde047; }
+.bg-yellow-400 { background-color: #facc15; }
+.bg-yellow-500 { background-color: #eab308; }
+.bg-yellow-600 { background-color: #ca8a04; }
 .bg-purple-500 { background-color: #3bb0f88e; }
+.bg-indigo-50  { background-color: #eef2ff; }
+.bg-indigo-100 { background-color: #e0e7ff; }
+.text-indigo-700 { color: #4338ca; }
+.text-indigo-800 { color: #3730a3; }
+.border-indigo-200 { border-color: #c7d2fe; }
+
+.bg-green-50 {
+  background-color: #f0fdf4;
+}
+.bg-amber-50 {
+  background-color: #fffbeb;
+}
+
+.bg-orange-50  { background-color: #fce1c0c4; }
+.bg-orange-100 { background-color: #ffedd5; }
+.bg-orange-300 { background-color: #fdba74; }
+.bg-orange-500 { background-color: #f97316; }
+.bg-orange-600 { background-color: #ea580c; }
+
+.text-orange-600 { color: #f45e0e; }
+
+.border-orange-200 { border-color: #fed7aa; }
+
 
 /* Gradient Background for Login */
 .bg-gradient-to-br {
   background: linear-gradient(to bottom right, #eff6ff, #e0e7ff);
 }
 
-/* Text Colors */
-.text-white { color: #ffffff; }
+
+
+.text-amber-600 {
+  color: #d97706;
+}.text-white { color: #ffffff; }
 .text-gray-500 { color: #6b7280; }
 .text-gray-600 { color: #4b5563; }
 .text-gray-700 { color: #374151; }
@@ -272,3 +314,58 @@ input:disabled, textarea:disabled, select:disabled {
 .bg-red-100.text-red-800 { background-color: #fee2e2; color: #991b1b; }
 .bg-orange-100.text-orange-700 { background-color: #ffedd5; color: #c2410c; }
 .bg-purple-100.text-purple-700 { background-color: #f3e8ff; color: #7e22ce; }
+
+/* Hide default radio */
+.custom-radio {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+/* Hover effect */
+.custom-radio:hover {
+  border-color: #2563eb;
+}
+
+/* Checked state */
+.custom-radio:checked {
+  border-color: #2563eb;
+  background-color: #2563eb;
+}
+
+/* Inner dot */
+.custom-radio:checked::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Focus ring */
+.custom-radio:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+/* Selected card style (optional smooth effect) */
+.admin-card {
+  transition: all 0.2s ease;
+}
+
+.admin-card.selected {
+  border-color: #2563eb !important;
+  background-color: #eff6ff;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}

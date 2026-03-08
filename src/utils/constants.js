@@ -1,7 +1,7 @@
 // src/utils/constants.js
 
 // API Base URL
-export const API_BASE_URL = 'https://testing-backend-neon.vercel.app/api';
+export const API_BASE_URL = 'https://testing-backend-neon.vercel.app/apigit ';
 
 // User Roles
 export const ROLES = {

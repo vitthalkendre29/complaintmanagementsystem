@@ -121,7 +121,7 @@ const ComplaintList = ({ onNavigate }) => {
               <div className="flex flex-col sm:flex-row justify-between gap-3 mb-3">
                 <div className="flex items-center gap-2 flex-wrap">
                   <h3 className="text-lg font-semibold text-gray-800">{c.title}</h3>
-                  {c.pendingInfoRequest && (
+                  {c.pendingInfoRequest &&  c.status !== 'Resolved' && (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-semibold bg-amber-100 text-amber-700 rounded-full">
                       <HelpCircle className="h-3 w-3" /> Info Requested
                     </span>
